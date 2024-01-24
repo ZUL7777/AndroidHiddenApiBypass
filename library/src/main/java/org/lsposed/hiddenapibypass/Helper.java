@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 LSPosed
+ * Copyright (C) 2021-2023 LSPosed
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.lang.invoke.MethodHandleInfo;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Member;
 
+@SuppressWarnings("unused")
 public class Helper {
     static public class MethodHandle {
         private final MethodType type = null;
@@ -68,8 +69,40 @@ public class Helper {
         private transient short copiedMethodsOffset;
         private transient short virtualMethodsOffset;
     }
+
+    static public class AccessibleObject {
+        private boolean override;
+    }
+
+    static final public class Executable extends AccessibleObject {
+        private Class declaringClass;
+        private Class declaringClassOfOverriddenMethod;
+        private Object[] parameters;
+        private long artMethod;
+        private int accessFlags;
+    }
+
+    @SuppressWarnings("EmptyMethod")
     public static class NeverCall {
-        static void a(){}
-        static void b(){}
+        private static void a() {
+        }
+
+        private static void b() {
+        }
+
+        private static int s;
+        private static int t;
+        private int i;
+        private int j;
+    }
+
+    public static class InvokeStub {
+        private static Object invoke(Object... args) {
+            throw new IllegalStateException("Failed to invoke the method");
+        }
+
+        private InvokeStub(Object... args) {
+            throw new IllegalStateException("Failed to new a instance");
+        }
     }
 }
